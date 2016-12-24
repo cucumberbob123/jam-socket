@@ -9,7 +9,18 @@ function listening() {
 
 }
 
-
-
-
 app.use(express.static('website'));
+
+var io = require("socket.io")(server)
+
+io.sockets.on("connection",
+function (socket) {
+  console.log("We have a new client: " + socket.id);
+
+  socket.on("mouse",
+    function (data) {
+      socket.broadcast.emit(data)
+    }
+  )
+}
+)
