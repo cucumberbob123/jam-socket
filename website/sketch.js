@@ -3,7 +3,9 @@ var socket;
 function setup() {
   createCanvas(400, 400);
   background(0);
-  socket = io.connect(server.adress().adress);
+  // Start a socket connection to the server
+  // Some day we would run this server somewhere else
+  socket = io.connect('https://jam-socket.herokuapp.com');
   // We make a named event called 'mouse' and write an
   // anonymous callback function
   socket.on('mouse',
