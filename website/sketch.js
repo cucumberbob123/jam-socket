@@ -1,5 +1,5 @@
 var socket;
-
+console.log("I am on!!!")
 function setup() {
   createCanvas(400, 400);
   background(0);
