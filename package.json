@@ -1,5 +1,5 @@
 {
-  "name": "js",
+  "name": "jam-socket",
   "version": "1.0.0",
   "description": "Quick JS project",
   "main": "server.js",
@@ -8,12 +8,16 @@
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [
-    "node"
+    "node",
+    "heroku"
   ],
-  "author": "James lounds",
-  "license": "ISC",
+  "author": "James Lounds",
+  "license": "MIT",
   "dependencies": {
     "express": "^4.14.0",
     "socket.io": "^1.7.2"
+  },
+  "engines": {
+    "node": "4.1.1"
   }
 }
