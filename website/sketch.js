@@ -13,7 +13,7 @@ function setup() {
     function(data) {
       console.log("Got: " + data.x + " " + data.y);
       // Draw a blue circle
-      fill(0,0,255);
+      fill(0,100,255);
       noStroke();
       ellipse(data.x, data.y, 20, 20);
     }
