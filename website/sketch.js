@@ -14,6 +14,7 @@ function setup() {
 }
 
 function draw() {
+  //nothing to draw
 }
 
 function mouseDragged() {
@@ -24,7 +25,7 @@ function mouseDragged() {
 }
 
 function sendmouse(xpos, ypos) {
-
+  console.log("sendmouse: " + xpos + " " + ypos);
   // Make a little object with  and y
   var data = {
     x: xpos,

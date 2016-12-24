@@ -11,7 +11,7 @@ function listening() {
 
 app.use(express.static('website'));
 
-var io = require("socket.io")(server)
+var io = require("socket.io")(server);
 
 io.sockets.on("connection",
 function (socket) {
@@ -19,7 +19,7 @@ function (socket) {
 
   socket.on("mouse",
     function (data) {
-      socket.broadcast.emit(data)
+      socket.broadcast.emit(data);
     }
   )
 }
