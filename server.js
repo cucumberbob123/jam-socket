@@ -4,6 +4,13 @@ var app = express();
 
 var server = app.listen(process.env.PORT || 3000, listen);
 
+const bodyParser = require("body-parser")
+app.use(bodyParser.urlencoded({
+  extended: true
+}));
+
+app.use(require('cookie-parser')());
+
 function listen() {
   var host = server.address().address;
   var port = server.address().port;
@@ -12,13 +19,14 @@ function listen() {
 
 app.use(express.static('website'));
 
-
 var io = require('socket.io')(server);
 
-io.sockets.on('connection',
+let sockets = [];
+const draw = io.sockets.on('connection',
   // We are given a websocket object in our function
   function (socket) {
-
+    const index = sockets.length;
+    console.log(sockets)
     console.log("We have a new client: " + socket.id);
 
     // When this user emits, client side: socket.emit('otherevent',some data);
@@ -31,8 +39,37 @@ io.sockets.on('connection',
       }
     );
 
+    socket.on('clear', () => {
+      console.log("clearing")
+      socket.broadcast.emit('clear');
+    })
+
     socket.on('disconnect', function () {
       console.log("Client has disconnected");
     });
   }
-);
+)
+
+app.post("/login", (req, res) => {
+  console.log(req.body.password === "very secure password")
+  if (req.body.password === "very secure password") {
+    res.cookie(
+      "authorised", true
+    )
+  }
+  return res.json({
+    foo: "bar"
+  })
+})
+
+app.get("/authorised", (req, res) => res.json({
+  authorised: req.cookies.authorised
+}))
+
+app.get("/clear", (req, res) => {
+  if (req.cookies.authorised) {
+    draw.emit("clear")
+    return res.status(200).end()
+  }
+  return res.status(200).end()
+})
