@@ -24,7 +24,7 @@ io.sockets.on('connection',
     // When this user emits, client side: socket.emit('otherevent',some data);
     socket.on('mouse',
       function (data) {
-        console.log(`Received: x: ${x}, y:${y}, px: ${px}, y: ${py}`);
+        console.log(`Received: x: ${data.x}, y:${data.y}, px: ${data.px}, y: ${data.py}`);
 
         // Send it to all other clients
         socket.broadcast.emit('mouse', data);
