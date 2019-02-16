@@ -23,17 +23,15 @@ io.sockets.on('connection',
 
     // When this user emits, client side: socket.emit('otherevent',some data);
     socket.on('mouse',
-      function(data) {
-        console.log("Received: 'mouse' " + data.x + " " + data.y);
+      function (data) {
+        console.log(`Received: x: ${x}, y:${y}, px: ${px}, y: ${py}`);
 
         // Send it to all other clients
         socket.broadcast.emit('mouse', data);
-
-
       }
     );
 
-    socket.on('disconnect', function() {
+    socket.on('disconnect', function () {
       console.log("Client has disconnected");
     });
   }

@@ -10,12 +10,12 @@ function setup() {
   // anonymous callback function
   socket.on('mouse',
     // When we receive data
-    function(data) {
-      console.log("Got: " + data.x + " " + data.y);
+    function (data) {
+      console.log(data);
       // Draw a blue circle
-      fill(0,100,255);
-      noStroke();
-      ellipse(data.x, data.y, 20, 20);
+      strokeWeight(10);
+      stroke(0, 100, 255)
+      line(data.x, data.y, data.px, data.py);
     }
   );
 }
@@ -26,24 +26,26 @@ function draw() {
 
 function mouseDragged() {
   // Draw some white circles
-  fill(255);
-  noStroke();
-  ellipse(mouseX,mouseY,20,20);
+  strokeWeight(10);
+  stroke(255)
+  line(mouseX, mouseY, pmouseX, pmouseY);
   // Send the mouse coordinates
-  sendmouse(mouseX,mouseY);
+  sendmouse(mouseX, mouseY, pmouseX, pmouseY);
 }
 
 // Function for sending to the socket
-function sendmouse(xpos, ypos) {
+function sendmouse(x, y, px, py) {
   // We are sending!
-  console.log("sendmouse: " + xpos + " " + ypos);
+  console.log("sendmouse: " + x + " " + y);
 
   // Make a little object with  and y
   var data = {
-    x: xpos,
-    y: ypos
+    x,
+    y,
+    px,
+    py
   };
-
+  console.log(data)
   // Send that object to the socket
-  socket.emit('mouse',data);
+  socket.emit('mouse', data);
 }
