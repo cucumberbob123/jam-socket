@@ -10,7 +10,7 @@ function setup() {
   canvas.parent("canvas-holder")
   background(0);
 
-  socket = io.connect('localhost:3000');
+  socket = io.connect('https://jam-socket.herokuapp.com/');
 
   socket.on('clear', () => {
     if (available) {
