@@ -1,32 +1,31 @@
 let socket;
 let available = true;
 
-let r = 0;
-let g = 100;
-let b = 255;
+let h = 0
+let s = 0
+let v = 100
+
+let mode = "";
+let effect;
 
 function setup() {
   let canvas = createCanvas(1000, 1000);
-  canvas.parent("canvas-holder")
+  canvas.parent("canvas-holder");
   background(0);
+  colorMode(HSB, 100);
+  socket = io.connect("https://jam-socket.herokuapp.com");
 
-  socket = io.connect('https://jam-socket.herokuapp.com/');
-
-  socket.on('clear', () => {
+  socket.on("clear", () => {
     if (available) {
-      clearCanvas()
+      clearCanvas();
     }
-  })
+  });
 
-
-  socket.on('mouse',
-    function (data) {
-      console.log(data);
-      strokeWeight(10);
-      stroke(data.r, data.g, data.b) //set color to blue
-      line(data.x, data.y, data.px, data.py);
-    }
-  );
+  socket.on("mouse", function (data) {
+    strokeWeight(10);
+    stroke(data.h, data.s, data.v); //set color to blue
+    line(data.x, data.y, data.px, data.py);
+  });
 }
 
 function draw() {
@@ -34,10 +33,11 @@ function draw() {
 }
 
 function mouseDragged() {
-  strokeWeight(10);
-  stroke(255); //set color to white
+  strokeWeight(10)
+  stroke(h, s, v)
   line(mouseX, mouseY, pmouseX, pmouseY);
   sendmouse(mouseX, mouseY, pmouseX, pmouseY);
+
 }
 
 function sendmouse(x, y, px, py) {
@@ -46,33 +46,43 @@ function sendmouse(x, y, px, py) {
     y,
     px,
     py,
-    r: r,
-    g: g,
-    b: b
+    h,
+    s,
+    v
   };
-  console.log(data)
   // Send that object to the socket
-  socket.emit('mouse', data);
+  socket.emit("mouse", data);
 }
 
 function clearCanvas() {
   available = false;
-  fetch("/clear")
+  fetch("/clear");
   clear();
   background(0);
-  setTimeout(() => available = true, 5000)
-}
-
-async function authorised() {
-  return await fetch("/authorised").then(res => res.json()).then(data => data.authorised)
+  setTimeout(() => (available = true), 5000);
 }
 
 function keyTyped() {
-  console.log(key)
+  console.log(key);
   if (key === "r") {
-    console.log("r")
-    r = 255
-    g = 0
-    b = 0
+    h = s = v = 100;
+    mode = "red";
   }
+  if (key === "t") {
+    mode = "rainbow";
+    s = v = 100;
+    h = 0;
+    effect = setInterval(() => {
+      h++;
+      if (h === 100) h = 0;
+      console.log(h)
+    }, 15)
+  }
+  if (key === "n") {
+    clearInterval(effect);
+    s = 0;
+    v = 100;
+    mode = "normal"
+  }
+  console.log(mode)
 }

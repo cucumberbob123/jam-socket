@@ -25,15 +25,12 @@ let sockets = [];
 const draw = io.sockets.on('connection',
   // We are given a websocket object in our function
   function (socket) {
-    const index = sockets.length;
     console.log(sockets)
     console.log("We have a new client: " + socket.id);
 
     // When this user emits, client side: socket.emit('otherevent',some data);
     socket.on('mouse',
       function (data) {
-        console.log(`Received: x: ${data.x}, y:${data.y}, px: ${data.px}, y: ${data.py}`);
-
         // Send it to all other clients
         socket.broadcast.emit('mouse', data);
       }
@@ -51,15 +48,13 @@ const draw = io.sockets.on('connection',
 )
 
 app.post("/login", (req, res) => {
-  console.log(req.body.password === "very secure password")
+  console.log(req.body.password)
   if (req.body.password === "very secure password") {
     res.cookie(
       "authorised", true
     )
   }
-  return res.json({
-    foo: "bar"
-  })
+  return res.redirect("/")
 })
 
 app.get("/authorised", (req, res) => res.json({
@@ -67,9 +62,12 @@ app.get("/authorised", (req, res) => res.json({
 }))
 
 app.get("/clear", (req, res) => {
+  console.log("clear request")
   if (req.cookies.authorised) {
+    console.log("clearing all canvases")
     draw.emit("clear")
     return res.status(200).end()
   }
+  console.log("not authorised")
   return res.status(200).end()
 })
