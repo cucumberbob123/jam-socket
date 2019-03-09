@@ -18,5 +18,11 @@
     "cookie-parser": "^1.4.4",
     "express": "^4.16.4",
     "socket.io": "^2.2.0"
+  },
+  "devDependencies": {
+    "eslint-config-p5js": "^1.0.1"
+  },
+  "nodemonConfig": {
+    "ignore": ["website/*.js"]
   }
 }

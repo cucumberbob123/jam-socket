@@ -4,6 +4,44 @@
 <head>
   <meta charset="UTF-8">
   <title>Sockets Example</title>
+  <style>
+    .slider {
+  -webkit-appearance: none;
+  height: 15px;
+  border-radius: 5px;
+  background: #d3d3d3;
+  outline: none;
+  opacity: 0.7;
+  -webkit-transition: .2s;
+  transition: opacity .2s;
+}
+
+#slide .ui-slider-range {
+  background:#4CAF50;
+}
+
+.slider:hover {
+  opacity: 1;
+}
+
+.slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 25px;
+  height: 25px;
+  border-radius: 50%;
+  background: #4CAF50;
+  cursor: pointer;
+}
+
+.slider::-moz-range-thumb {
+  width: 25px;
+  height: 25px;
+  border-radius: 50%;
+  background: #4CAF50;
+  cursor: pointer;
+}
+  </style>
   <script src="https://cdn.socket.io/socket.io-1.4.5.js"></script>
   <script src="libraries/p5.js" type="text/javascript"></script>
   <script src="libraries/p5.dom.js" type="text/javascript"></script>
@@ -21,6 +59,7 @@
   </div>
   <div>
     <button onclick="clearCanvas()">Clear</button>
+    <input type="range" id="slide" min="0" max="100" value="40" class="slider"></input>
   </div>
 </body>
 
